@@ -1,0 +1,35 @@
+services:
+  api:
+    build:
+      context: ./Advanced-Frontend-Final-Api
+      dockerfile: ./Dockerfile
+    command: dotnet run --project Advanced-Frontend-Final-Api
+
+  client:
+    build: 
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+     - ./client:/app
+     - ./client/node_modules:/app/node_modules
+    environment:
+      NODE_ENV: development
+    stdin_open: true
+    tty: true
+    command: npm start
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: test-user
+      POSTGRES_PASSWORD: test-password
+      POSTGRES_DB: test-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./Advanced-Frontend-Final-Api/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    #restart: unless-stopped

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sacredsteps
+  name: dorian-db-deployment
+  labels:
+    app: dorian-db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dorian-db
+  template:
+    metadata:
+      labels:
+        app: dorian-db
+    spec:
+      containers:
+      - name: dorian-db
+        image: postgres 
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: test-user
+        - name: POSTGRES_PASSWORD
+          value: test-password
+        - name: POSTGRES_DB
+          value: test-db
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/postgresql/data
+        - name: init-script
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: dorian-db-pvc
+      - name: init-script
+        configMap:
+          name: ss-postgres-init
