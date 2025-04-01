@@ -2,23 +2,26 @@ services:
   api:
     build:
       context: ./Advanced-Frontend-Final-Api
-      dockerfile: ./Dockerfile
-    command: dotnet run --project Advanced-Frontend-Final-Api
+      dockerfile: dev.Dockerfile
+    command: dotnet run 
+    environment: 
+      CONNECTION_STRING: "User id=test-user; Host=localhost; password=test-password; db=test-db;"
 
-  client:
-    build: 
-      context: .
-      dockerfile: ./client/Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-     - ./client:/app
-     - ./client/node_modules:/app/node_modules
-    environment:
-      NODE_ENV: development
-    stdin_open: true
-    tty: true
-    command: npm start
+
+  # client:
+  #   build: 
+  #     context: .
+  #     dockerfile: ./client/Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #    - ./client:/app
+  #    - ./client/node_modules:/app/node_modules
+  #   environment:
+  #     NODE_ENV: development
+  #   stdin_open: true
+  #   tty: true
+  #   command: npm start
 
   postgres:
     image: postgres:latest

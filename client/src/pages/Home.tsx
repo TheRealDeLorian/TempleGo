@@ -4,6 +4,7 @@ import { useGeoLocation } from "../hooks/geoLocationHook";
 import { findWhichTempleUserIsNear } from "../logic/locationCalculator";
 import { Temple } from "../data/Temple";
 import { useGetAllTemplesQuery } from "../hooks/templeHooks";
+import {MapsComponent} from "../components/MapsComponent";
 
 export const Home = () => {
   const [currentTemple, setCurrentTemple] = useState<Temple | undefined>(
@@ -87,6 +88,7 @@ export const Home = () => {
             </>
           )}
         </div>
+        <MapsComponent lat={userLat} long={userLong} ></MapsComponent>
         <div style={{ flex: 1, position: "relative" }}>
           <img
             src={
@@ -124,6 +126,7 @@ export const Home = () => {
         }
       }
       `}</style>
+     
     </>
   );
 };

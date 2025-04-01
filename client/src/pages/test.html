@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Locations Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCptEE2wIlnpx4Cb7rNVfg7jhfsZ28Ni1g"></script>
+    <script>
+        function initMap() {
+            // Center map
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 37.7749, lng: -122.4194 }, // Example: San Francisco
+                zoom: 12,
+            });
+
+            // Array of custom locations
+            const locations = [
+                { name: "Location 1", lat: 37.7749, lng: -122.4194 },
+                { name: "Location 2", lat: 37.7849, lng: -122.4294 },
+                { name: "Location 3", lat: 37.7949, lng: -122.4394 }
+            ];
+
+            // Add markers
+            locations.forEach(location => {
+                const marker = new google.maps.AdvancedMarkerElement({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.name,
+                });
+
+                // Info window
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<h3>${location.name}</h3>`,
+                });
+
+                marker.addListener("click", () => {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="map" style="height: 500px; width: 100%;"></div>
+</body>
+</html>
